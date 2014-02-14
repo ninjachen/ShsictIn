@@ -25,15 +25,27 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int webview=0x7f070000;
+        public static final int demo_collection_button=0x7f070003;
+        public static final int demo_external_activity=0x7f070004;
+        public static final int pager=0x7f070000;
+        public static final int pager_title_strip=0x7f070001;
+        public static final int webview=0x7f070002;
     }
     public static final class layout {
-        public static final int activity_fullscreen=0x7f030000;
+        public static final int activity_collection_demo=0x7f030000;
+        public static final int activity_fullscreen=0x7f030001;
+        public static final int activity_main=0x7f030002;
+        public static final int fragment_collection_object=0x7f030003;
+        public static final int fragment_section_dummy=0x7f030004;
+        public static final int fragment_section_launchpad=0x7f030005;
     }
     public static final class string {
         public static final int app_name=0x7f050000;
+        public static final int demo_collection=0x7f050005;
+        public static final int demo_external_activity=0x7f050004;
         public static final int dummy_button=0x7f050001;
         public static final int dummy_content=0x7f050002;
+        public static final int dummy_section_text=0x7f050003;
     }
     public static final class style {
         /** 
