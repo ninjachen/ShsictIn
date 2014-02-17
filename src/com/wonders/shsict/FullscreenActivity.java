@@ -7,6 +7,7 @@ import java.io.IOException;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.webkit.WebChromeClient;
@@ -36,9 +37,8 @@ public class FullscreenActivity extends Activity {
 	  return super.onKeyDown(keyCode, event);
 	 }
 	 
-	@SuppressLint("SdCardPath")
 	private String getShsictServiceURLString() {
-		String configPath = "/sdcard/Shsict.config";
+		String configPath = Environment.getExternalStorageDirectory().getPath()+"/Shsict.config";
 		String ip = getIP(configPath);
 		StringBuffer sb = new StringBuffer();
 		sb.append("http://").append(ip);

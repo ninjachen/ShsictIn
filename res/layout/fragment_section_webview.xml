@@ -12,12 +12,12 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
+    android:name="com.example.android.effectivenavigation.WebviewSectionFragment"
   -->
-
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/text1"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<WebView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/webview"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:gravity="center"
-    android:textSize="24sp"
-    android:padding="32dp" />
+    android:padding="1dp" />

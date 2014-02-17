@@ -1,38 +1,39 @@
-/*
- * Copyright 2012 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 package com.wonders.shsict;
 
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.view.KeyEvent;
+import android.view.Window;
+import android.webkit.WebView;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener  {
 
-    /**
+	private static final int TAB_NUMBER = 5;
+	
+	private static String shsictUrl = getShsictServiceURLString();
+	
+	private final static String[] urls = {shsictUrl, shsictUrl, shsictUrl, shsictUrl, shsictUrl};
+/*	private String[] urls ={"http://www.google.com"
+		,"http://www.baidu.com"
+		,"http://www.qq.com"
+		,"http://www.36kr.com"
+		,"http://weibo.com"}; */
+	
+	private WebView webview;    
+	/**
      * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
      * three primary sections of the app. We use a {@link android.support.v4.app.FragmentPagerAdapter}
      * derivative, which will keep every loaded fragment in memory. If this becomes too memory
@@ -48,8 +49,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().requestFeature(Window.FEATURE_PROGRESS);
         setContentView(R.layout.activity_main);
-
+       
+        webview = (WebView)findViewById(R.id.webview);
         // Create the adapter that will return a fragment for each of the three primary sections
         // of the app.
         mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
@@ -117,16 +121,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
         @Override
         public Fragment getItem(int i) {
             switch (i) {
-                case 0:
-                    // The first section of the app is the most interesting -- it offers
-                    // a launchpad into the other demonstrations in this example application.
-                    return new LaunchpadSectionFragment();
+//                case 0:
+//                    // The first section of the app is the most interesting -- it offers
+//                    // a launchpad into the other demonstrations in this example application.
+//                    return new LaunchpadSectionFragment();
 
                 default:
                     // The other sections of the app are dummy placeholders.
-                    Fragment fragment = new DummySectionFragment();
+                    Fragment fragment = new WebviewSectionFragment();
                     Bundle args = new Bundle();
-                    args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, i + 1);
+				args.putString(WebviewSectionFragment.WEBVIEW_URL, urls[i]);
                     fragment.setArguments(args);
                     return fragment;
             }
@@ -134,71 +138,63 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
         @Override
         public int getCount() {
-            return 3;
+            return TAB_NUMBER;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return "Section " + (position + 1);
+        	String title ;
+        	switch(position){
+        	case 0:
+        		title = "首页";
+        		break;
+        	case 1:
+        		title = "在线查询";
+        		break;
+        	case 2:
+        		title = "统计分析";
+        		break;
+        	case 3:
+        		title = "我的关注";
+        		break;
+        	case 4:
+        		title = "更多";
+        		break;
+        	default:
+        		title = "";
+        	}
+            return title;
         }
     }
+    
+    @Override
+	 public boolean onKeyDown(int keyCode, KeyEvent event) {
+	  if (keyCode == KeyEvent.KEYCODE_BACK && webview.canGoBack()) {
+		  webview.goBack();// 返回前一个页面
+	   return true;
+	  }
+	  return super.onKeyDown(keyCode, event);
+	 }
+    
+    private static String getShsictServiceURLString() {
+		String configPath = Environment.getExternalStorageDirectory().getPath()+"/Shsict.config";
+		String ip = getIP(configPath);
+		StringBuffer sb = new StringBuffer();
+		sb.append("http://").append(ip).append("/Portal.aspx");
+		return sb.toString();
+	}
 
-    /**
-     * A fragment that launches other parts of the demo application.
-     */
-    public static class LaunchpadSectionFragment extends Fragment {
+	private static String getIP(String path) {
+		try {BufferedReader br = null;
+		
+			br = new BufferedReader(new FileReader(path));
+			String ip = br.readLine();
+			br.close();
+			return ip;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "baidu.com";
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_section_launchpad, container, false);
-
-            // Demonstration of a collection-browsing activity.
-            rootView.findViewById(R.id.demo_collection_button)
-                    .setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(getActivity(), CollectionDemoActivity.class);
-                            startActivity(intent);
-                        }
-                    });
-
-            // Demonstration of navigating to external activities.
-            rootView.findViewById(R.id.demo_external_activity)
-                    .setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            // Create an intent that asks the user to pick a photo, but using
-                            // FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET, ensures that relaunching
-                            // the application from the device home screen does not return
-                            // to the external activity.
-                            Intent externalActivityIntent = new Intent(Intent.ACTION_PICK);
-                            externalActivityIntent.setType("image/*");
-                            externalActivityIntent.addFlags(
-                                    Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                            startActivity(externalActivityIntent);
-                        }
-                    });
-
-            return rootView;
-        }
-    }
-
-    /**
-     * A dummy fragment representing a section of the app, but that simply displays dummy text.
-     */
-    public static class DummySectionFragment extends Fragment {
-
-        public static final String ARG_SECTION_NUMBER = "section_number";
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_section_dummy, container, false);
-            Bundle args = getArguments();
-            ((TextView) rootView.findViewById(android.R.id.text1)).setText(
-                    getString(R.string.dummy_section_text, args.getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-    }
+	}
 }
