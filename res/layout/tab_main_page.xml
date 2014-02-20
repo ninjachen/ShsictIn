@@ -13,11 +13,11 @@
         android:background="@android:color/transparent"
         android:src="@drawable/m1" />
 
-    <TextView
+    <!-- <TextView
         android:id="@+id/tab_to_opine_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/main_page" />
+        android:text="@string/main_page" /> -->
 
 </LinearLayout>

@@ -12,10 +12,10 @@
 		android:layout_gravity="center_horizontal"
         android:background="@android:color/transparent" />
 
-    <TextView
+  <!--   <TextView
         android:id="@+id/tab_to_opine_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" 
 		android:layout_gravity="center_horizontal"
-        android:text="@string/online_query"/>
+        android:text="@string/online_query"/> -->
 </LinearLayout>

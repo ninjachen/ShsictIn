@@ -33,7 +33,6 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class id {
         public static final int pager=0x7f070001;
         public static final int tab_icon=0x7f070003;
-        public static final int tab_to_opine_title=0x7f070004;
         public static final int webview=0x7f070000;
         public static final int welcome=0x7f070002;
     }
