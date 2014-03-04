@@ -201,10 +201,10 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK && webview.canGoBack()) {
+		/*if (keyCode == KeyEvent.KEYCODE_BACK && webview.canGoBack()) {
 			webview.goBack();// 返回前一个页面
 			return true;
-		}
+		}*/
 		return super.onKeyDown(keyCode, event);
 	}
 
