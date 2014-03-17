@@ -42,7 +42,7 @@ public class WebViewActivity extends Activity {
 		//當前界面是首頁
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 
-			if (webview.getUrl().indexOf("Portal.aspx") > -1) {
+			if (webview.getUrl().toLowerCase().indexOf("portal.aspx") > -1) {
 
 				new AlertDialog.Builder(this).setTitle("确认退出吗？").setIcon(android.R.drawable.ic_dialog_info).setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
@@ -59,7 +59,7 @@ public class WebViewActivity extends Activity {
 						// 点击“返回”后的操作,这里不设置没有任何操作  
 					}
 				}).show();
-			} else if (webview.getUrl().indexOf("detail") > -1) {
+			} else if (webview.getUrl().toLowerCase().indexOf("detail") > -1) {
 				webview.goBack();
 			} else {
 				//否则返回首页
