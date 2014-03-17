@@ -1,8 +1,12 @@
-package com.wonders.shsict;
+package com.wonders.shsict.activity;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+
+import com.wonders.shsict.R;
+import com.wonders.shsict.R.id;
+import com.wonders.shsict.R.layout;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;

@@ -8,13 +8,8 @@
     <string name="analysis">统计分析</string>
     <string name="my_follows">我的关注</string>
     <string name="more">更多</string>
-		    <!--              
-         <string name="dummy_content">DUMMY\nCONTENT</string>
-
-    <string name="dummy_section_text">Section %1d is just a dummy section.</string>
-
-    <string name="demo_external_activity">Demo External Activity</string>
-    <string name="demo_collection">Demo Collection</string>
-    -->
+    <string name="seach">搜索</string>
+    <string name="system_notice">系统公告</string>
+    <string name="account_manage">帐号管理</string>
 
 </resources>

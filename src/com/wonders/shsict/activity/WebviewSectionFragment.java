@@ -1,4 +1,8 @@
-package com.wonders.shsict;
+package com.wonders.shsict.activity;
+
+import com.wonders.shsict.R;
+import com.wonders.shsict.R.id;
+import com.wonders.shsict.R.layout;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

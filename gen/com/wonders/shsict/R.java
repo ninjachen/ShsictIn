@@ -22,19 +22,26 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int black_overlay=0x7f040000;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
-        public static final int loading=0x7f020001;
-        public static final int m1=0x7f020002;
-        public static final int m2=0x7f020003;
-        public static final int m3=0x7f020004;
-        public static final int m4=0x7f020005;
-        public static final int m5=0x7f020006;
+        public static final int e1=0x7f020000;
+        public static final int f1=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int loading=0x7f020003;
+        public static final int m1=0x7f020004;
+        public static final int m2=0x7f020005;
+        public static final int m3=0x7f020006;
+        public static final int m4=0x7f020007;
+        public static final int m5=0x7f020008;
+        public static final int n1=0x7f020009;
     }
     public static final class id {
-        public static final int pager=0x7f070001;
-        public static final int tab_icon=0x7f070003;
-        public static final int webview=0x7f070000;
-        public static final int welcome=0x7f070002;
+        public static final int account_manage_item=0x7f080007;
+        public static final int main_page_item=0x7f080004;
+        public static final int pager=0x7f080001;
+        public static final int seach_item=0x7f080005;
+        public static final int system_notice_item=0x7f080006;
+        public static final int tab_icon=0x7f080003;
+        public static final int webview=0x7f080000;
+        public static final int welcome=0x7f080002;
     }
     public static final class layout {
         public static final int activity_fullscreen=0x7f030000;
@@ -47,7 +54,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int tab_my_follows=0x7f030007;
         public static final int tab_online_query=0x7f030008;
     }
+    public static final class menu {
+        public static final int menu=0x7f070000;
+    }
     public static final class string {
+        public static final int account_manage=0x7f050008;
         public static final int analysis=0x7f050003;
         /**  <string name="app_name">Shsict</string> 
          */
@@ -56,6 +67,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int more=0x7f050005;
         public static final int my_follows=0x7f050004;
         public static final int online_query=0x7f050002;
+        public static final int seach=0x7f050006;
+        public static final int system_notice=0x7f050007;
     }
     public static final class style {
         /** 

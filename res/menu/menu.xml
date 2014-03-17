@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <!-- 首页portal -->
+    <item 
+        android:id="@+id/main_page_item"
+        android:icon="@drawable/m1"
+        android:showAsAction="ifRoom"
+        android:title="@string/main_page"
+        />
+        
+    <!-- 收藏夹favourite -->
+    <item
+        android:id="@+id/seach_item"
+        android:icon="@drawable/f1"
+        android:showAsAction="ifRoom"
+        android:title="@string/seach"
+        />
+        
+    <!-- 系统公告notice -->
+    <item
+        android:id="@+id/system_notice_item"
+        android:icon="@drawable/n1"
+        android:showAsAction="ifRoom"
+        android:title="@string/system_notice"
+        />
+        
+    <!-- 帐号管理login -->
+    <item
+        android:id="@+id/account_manage_item"
+        android:icon="@drawable/e1"
+        android:showAsAction="ifRoom"
+        android:title="@string/account_manage"
+        />
+        
+    <!-- <item
+        android:id="@+id/item5"
+        android:icon="@drawable/m5"
+        android:showAsAction="ifRoom"
+        android:title="@string/main_page"
+        /> -->
+  
+</menu>

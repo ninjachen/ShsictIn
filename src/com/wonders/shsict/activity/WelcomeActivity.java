@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-package com.wonders.shsict;
+package com.wonders.shsict.activity;
+
+import com.wonders.shsict.R;
+import com.wonders.shsict.R.layout;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,31 +25,30 @@ import android.os.Bundle;
 import android.view.Window;
 
 public class WelcomeActivity extends Activity {
-	
-    public void onCreate(Bundle savedInstanceState) {
 
-	super.onCreate(savedInstanceState);
-	requestWindowFeature(Window.FEATURE_NO_TITLE);
-    setContentView(R.layout.activity_welcome);
-    Thread welcomeThread = new Thread() {
+	public void onCreate(Bundle savedInstanceState) {
 
-        @Override
-        public void run() {
-            try {
-                super.run();
-                sleep(5000);  //Delay of 5 seconds
-            } catch (Exception e) {
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.activity_welcome);
+		Thread welcomeThread = new Thread() {
 
-            } finally {
+			@Override
+			public void run() {
+				try {
+					super.run();
+					sleep(5000); //Delay of 5 seconds
+				} catch (Exception e) {
 
-                Intent i = new Intent(WelcomeActivity.this,
-                        MainActivity.class);
-                startActivity(i);
-                finish();
-            }
-        }
-    };
-    welcomeThread.start();
+				} finally {
 
-    }
+					Intent i = new Intent(WelcomeActivity.this, HomePageActivity.class);
+					startActivity(i);
+					finish();
+				}
+			}
+		};
+		welcomeThread.start();
+
+	}
 }
