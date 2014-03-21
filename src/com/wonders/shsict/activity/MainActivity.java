@@ -4,10 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import com.wonders.shsict.R;
-import com.wonders.shsict.R.id;
-import com.wonders.shsict.R.layout;
-
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -20,6 +16,8 @@ import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.webkit.WebView;
+
+import com.wonders.shsict.R;
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {

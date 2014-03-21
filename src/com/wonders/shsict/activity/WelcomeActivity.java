@@ -16,13 +16,12 @@
 
 package com.wonders.shsict.activity;
 
-import com.wonders.shsict.R;
-import com.wonders.shsict.R.layout;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
+
+import com.wonders.shsict.R;
 
 public class WelcomeActivity extends Activity {
 

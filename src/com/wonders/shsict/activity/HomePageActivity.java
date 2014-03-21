@@ -1,6 +1,5 @@
 package com.wonders.shsict.activity;
 
-import android.content.Intent;
 import android.view.MenuItem;
 
 import com.wonders.shsict.R;
