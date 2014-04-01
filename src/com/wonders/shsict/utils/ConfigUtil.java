@@ -15,6 +15,7 @@ public class ConfigUtil {
 	public static String getShsictServiceURLString() {
 		String defaultUrl = "http://www.douban.com";
 //		return defaultUrl;
+//		String configPath = "/sdcard/Shsict.config";
 		String configPath = Environment.getExternalStorageDirectory().getPath()+"/Shsict.config";
 		try {
 			BufferedReader br = null;

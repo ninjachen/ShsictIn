@@ -51,6 +51,12 @@ public class MainActivity extends FragmentActivity implements
 	ViewPager mViewPager;
 
 	public void onCreate(Bundle savedInstanceState) {
+//		new Thread(){
+//			@Override
+//			public void run() {
+//			System.out.println("run");	
+//			}
+//		}.start();
 		super.onCreate(savedInstanceState);
 		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().requestFeature(Window.FEATURE_PROGRESS);
