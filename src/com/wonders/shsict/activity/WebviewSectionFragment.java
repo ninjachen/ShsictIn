@@ -1,9 +1,5 @@
 package com.wonders.shsict.activity;
 
-import com.wonders.shsict.R;
-import com.wonders.shsict.R.id;
-import com.wonders.shsict.R.layout;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +10,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+
+import com.wonders.shsict.R;
 
 
 public class WebviewSectionFragment extends Fragment {

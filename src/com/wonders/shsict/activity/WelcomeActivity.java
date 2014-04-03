@@ -17,37 +17,100 @@
 package com.wonders.shsict.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 
 import com.wonders.shsict.R;
+import com.wonders.shsict.utils.ConfigUtil;
 
 public class WelcomeActivity extends Activity {
+	private AlertDialog alertDialog = null;
+	private Thread loopThread;
 
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_welcome);
-		Thread welcomeThread = new Thread() {
+
+	}
+
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		Thread delayToMainPageThread = new Thread() {
 
 			@Override
 			public void run() {
 				try {
 					super.run();
-					sleep(5000); //Delay of 5 seconds
-				} catch (Exception e) {
-
-				} finally {
-
+					sleep(1000); //Delay of 5 seconds
 					Intent i = new Intent(WelcomeActivity.this, HomePageActivity.class);
 					startActivity(i);
 					finish();
+				} catch (Exception e) {
+					//sleep error
+					e.printStackTrace();
 				}
 			}
 		};
-		welcomeThread.start();
+		//判斷是否是第一次進入程序
+		String url = ConfigUtil.getShsictServiceURLString(WelcomeActivity.this);
+		if (url != null) {
+			delayToMainPageThread.start();
+		} else if (alertDialog == null) {
+			alertDialog = ConfigUtil.showDialog(WelcomeActivity.this);
+		}
+
+		if (loopThread == null) {
+			loopThread = new Thread() {
+
+				@Override
+				public void run() {
+					super.run();
+					try {
+						while (true) {
+							sleep(2000);
+							WelcomeActivity.this.runOnUiThread(new Runnable() {
+
+								@Override
+								public void run() {
+									String url = ConfigUtil.getShsictServiceURLString(WelcomeActivity.this);
+									if (url != null) {
+										Intent i = new Intent(WelcomeActivity.this, HomePageActivity.class);
+										startActivity(i);
+										WelcomeActivity.this.finish();
+									} else if (alertDialog == null) {
+										alertDialog = ConfigUtil.showDialog(WelcomeActivity.this);
+									} else if (!alertDialog.isShowing()) {
+										alertDialog.show();
+									}
+
+								}
+							});
+						}
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+
+			};
+		}
+		loopThread.start();
 
 	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		if (loopThread.isAlive()) {
+			loopThread.interrupt();
+			loopThread = null;
+		}
+	}
+
 }

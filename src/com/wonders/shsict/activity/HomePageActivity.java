@@ -1,34 +1,34 @@
 package com.wonders.shsict.activity;
 
-import android.view.MenuItem;
-
-import com.wonders.shsict.R;
-import com.wonders.shsict.utils.ConfigUtil;
 
 public class HomePageActivity extends WebViewActivity {
-	protected String url = ConfigUtil.getShsictServiceURLString() + "/Portal.aspx";
 	
-	@Override
+//	protected String url = ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx";
+//	protected String m_url ;
+	
+	/*@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-//		Intent i;
 		 switch (item.getItemId()) {
 	        case R.id.main_page_item:
-	        	webview.loadUrl(ConfigUtil.getShsictServiceURLString() + "/Portal.aspx");
+	        	webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx");
 	        	break;
 	        case R.id.seach_item:
-	        	webview.loadUrl(ConfigUtil.getShsictServiceURLString() + "/favourite.aspx");
+	        	webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/favourite.aspx");
 	        	break;
 	        case R.id.system_notice_item:
-	        	webview.loadUrl(ConfigUtil.getShsictServiceURLString() + "/notice.aspx");
+	        	webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/notice.aspx");
 	        	break;
 	        case R.id.account_manage_item:
-	        	webview.loadUrl(ConfigUtil.getShsictServiceURLString() + "/login.aspx");
+	        	webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/login.aspx");
 	        	break;
+	        case R.id.setting_item:
+	        	ConfigUtil.showDialog(this);
+				
+				return true;
 	        default:
-	        	webview.loadUrl(ConfigUtil.getShsictServiceURLString() + "/Portal.aspx");
+	        	webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx");
 	        	break;
 	    }
-//		 finish();
 		 return true;
-	}
+	}*/
 }

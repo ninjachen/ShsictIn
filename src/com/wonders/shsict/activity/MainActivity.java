@@ -15,7 +15,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.Window;
-import android.webkit.WebView;
 
 import com.wonders.shsict.R;
 
@@ -33,7 +32,7 @@ public class MainActivity extends FragmentActivity implements
 	 * ,"http://www.qq.com" ,"http://www.36kr.com" ,"http://weibo.com"};
 	 */
 
-	private WebView webview;
+//	private WebView webview;
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the three primary sections of the app. We use a
@@ -51,18 +50,12 @@ public class MainActivity extends FragmentActivity implements
 	ViewPager mViewPager;
 
 	public void onCreate(Bundle savedInstanceState) {
-//		new Thread(){
-//			@Override
-//			public void run() {
-//			System.out.println("run");	
-//			}
-//		}.start();
 		super.onCreate(savedInstanceState);
 		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().requestFeature(Window.FEATURE_PROGRESS);
 		setContentView(R.layout.activity_main);
 
-		webview = (WebView) findViewById(R.id.webview);
+//		webview = (WebView) findViewById(R.id.webview);
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections
 		// of the app.

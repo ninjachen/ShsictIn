@@ -34,12 +34,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int n1=0x7f020009;
     }
     public static final class id {
-        public static final int account_manage_item=0x7f080007;
-        public static final int main_page_item=0x7f080004;
+        public static final int account_manage_item=0x7f080008;
+        public static final int main_page_item=0x7f080005;
         public static final int pager=0x7f080001;
-        public static final int seach_item=0x7f080005;
-        public static final int system_notice_item=0x7f080006;
-        public static final int tab_icon=0x7f080003;
+        public static final int seach_item=0x7f080006;
+        public static final int setting_item=0x7f080009;
+        public static final int system_notice_item=0x7f080007;
+        public static final int tab_icon=0x7f080004;
+        public static final int url_setting=0x7f080003;
         public static final int webview=0x7f080000;
         public static final int welcome=0x7f080002;
     }
@@ -48,11 +50,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int activity_main=0x7f030001;
         public static final int activity_welcome=0x7f030002;
         public static final int fragment_section_webview=0x7f030003;
-        public static final int tab_analysis=0x7f030004;
-        public static final int tab_main_page=0x7f030005;
-        public static final int tab_more=0x7f030006;
-        public static final int tab_my_follows=0x7f030007;
-        public static final int tab_online_query=0x7f030008;
+        public static final int setting_view=0x7f030004;
+        public static final int tab_analysis=0x7f030005;
+        public static final int tab_main_page=0x7f030006;
+        public static final int tab_more=0x7f030007;
+        public static final int tab_my_follows=0x7f030008;
+        public static final int tab_online_query=0x7f030009;
     }
     public static final class menu {
         public static final int menu=0x7f070000;
@@ -63,12 +66,19 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         /**  <string name="app_name">Shsict</string> 
          */
         public static final int app_name=0x7f050000;
+        public static final int cancel=0x7f05000c;
+        public static final int default_server_ip=0x7f05000f;
+        public static final int favourite=0x7f050009;
+        public static final int input_server_url=0x7f05000d;
         public static final int main_page=0x7f050001;
         public static final int more=0x7f050005;
         public static final int my_follows=0x7f050004;
+        public static final int ok=0x7f05000b;
         public static final int online_query=0x7f050002;
         public static final int seach=0x7f050006;
+        public static final int setting=0x7f05000a;
         public static final int system_notice=0x7f050007;
+        public static final int url_setting_hint=0x7f05000e;
     }
     public static final class style {
         /** 
