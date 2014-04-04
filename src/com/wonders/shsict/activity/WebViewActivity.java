@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -22,12 +23,11 @@ import com.wonders.shsict.utils.ConfigUtil;
 
 public class WebViewActivity extends Activity {
 
-
 	protected int checkedItem = -1;
-	protected String [] urls = {"",""};
-	
+	protected String[] urls = { "", "" };
+
 	protected WebView webview;
-	protected String url ;
+	protected String url;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +63,12 @@ public class WebViewActivity extends Activity {
 			} else if (webview.getUrl().toLowerCase(Locale.US).indexOf("detail") > -1) {
 				webview.goBack();
 			} else {
-				//否则返回首页
+				//否则返回首页id
 				webview.loadUrl(ConfigUtil.getShsictServiceURLString(WebViewActivity.this) + "/Portal.aspx");
 			}
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -99,10 +99,17 @@ public class WebViewActivity extends Activity {
 		});
 		webview.setWebViewClient(new WebViewClient() {
 			public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-				Toast.makeText(activity, "Oh no! " + " failingUrl:" + failingUrl + description, Toast.LENGTH_SHORT).show();
+				if (errorCode == WebViewClient.ERROR_HOST_LOOKUP && description.equals("net::ERR_ADDRESS_UNREACHABLE")) {
+//					 webview.loadUrl("content://"+activity.getResources().getAssets()+"loading.png");
+					
+					Intent i = new Intent(activity, WelcomeActivity.class);
+					activity.startActivityForResult(i, WelcomeActivity.START_WITH_OUT_GO_TO_MAINPAGE);
+					activity.finish();
+					Toast.makeText(activity, getString(R.string.error_promotion), Toast.LENGTH_LONG).show();
+				}
 			}
 		});
-//		setWebViewUrl(WebViewActivity.this);
+		//		setWebViewUrl(WebViewActivity.this);
 	}
 
 	class webViewClient extends WebViewClient {
@@ -114,6 +121,7 @@ public class WebViewActivity extends Activity {
 			return true;
 		}
 	}
+
 	/*
 	 * actionBar's menu
 	 */
@@ -124,16 +132,13 @@ public class WebViewActivity extends Activity {
 		return true;
 	}
 
-
-
 	@Override
 	protected void onStart() {
 		super.onStart();
-//		url = ConfigUtil.getShsictServiceURLString(this) +  "/Portal.aspx";
-//		refreshWebView(this);
+		url = ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx";
+		refreshWebView(this);
 	}
 
-	
 	/*public class RadioDialogBuilder extends Builder{
 
 		public RadioDialogBuilder(Context context) {
@@ -153,35 +158,35 @@ public class WebViewActivity extends Activity {
 		}
 		
 	}*/
-	
-	public void refreshWebView(Activity activity){
-		if(url != null)
+
+	public void refreshWebView(Activity activity) {
+		if (url != null)
 			webview.loadUrl(url);
 	}
-	
+
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		 switch (item.getItemId()) {
-	        case R.id.main_page_item:
-	        	webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx");
-	        	break;
-	        case R.id.seach_item:
-	        	webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/favourite.aspx");
-	        	break;
-	        case R.id.system_notice_item:
-	        	webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/notice.aspx");
-	        	break;
-	        case R.id.account_manage_item:
-	        	webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/login.aspx");
-	        	break;
-	        case R.id.setting_item:
-	        	ConfigUtil.showDialog(this);
-				
-				return true;
-	        default:
-	        	webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx");
-	        	break;
-	    }
-		 return true;
+		switch (item.getItemId()) {
+		case R.id.main_page_item:
+			webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx");
+			break;
+		case R.id.seach_item:
+			webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/favourite.aspx");
+			break;
+		case R.id.system_notice_item:
+			webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/notice.aspx");
+			break;
+		case R.id.account_manage_item:
+			webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/login.aspx");
+			break;
+		case R.id.setting_item:
+			ConfigUtil.showDialog(this);
+
+			return true;
+		default:
+			webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx");
+			break;
+		}
+		return true;
 	}
 }

@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -16,8 +18,7 @@ public class ConfigUtil {
 	protected static final String PREFS_NAME = "ShsictSetting";
 	protected static final String SHSICT_URL = "ShsictUrl";
 	protected static final String SHSICT_URL_DEFAULT = "http://10.1.25.21";
-//	private static String defaultUrl = null;
-	 
+
 	/**
 	 * 
 	 * @return eg http://1.1.1.1:8080
@@ -25,15 +26,13 @@ public class ConfigUtil {
 	public static String getShsictServiceURLString(Activity activity) {
 		SharedPreferences settings = activity.getSharedPreferences(PREFS_NAME, 0);
 		String url = settings.getString(SHSICT_URL, "ERROR");
-		if(url.equals("ERROR")){
-//			showDialog(activity);
+		if (url.equals("ERROR")) {
 			return null;
-		}else{
-//			webview.loadUrl(url);
+		} else {
 			return url;
 		}
 	}
-	
+
 	/*public static boolean initShsictServiceURLString(){
 		String configPath = Environment.getExternalStorageDirectory().getPath()+"/Shsict.config";
 		try {
@@ -52,37 +51,49 @@ public class ConfigUtil {
 			return false;
 		}
 	}
-*/	
-	public static AlertDialog showDialog(final Activity activity){
+	*/
+	public static AlertDialog showDialog(final Activity activity) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-    	builder.setTitle(activity.getString(R.string.input_server_url));
-    	LayoutInflater inflater = activity.getLayoutInflater();
-    	View customer_layout = inflater.inflate(R.layout.setting_view, null);
-    	final EditText input = (EditText) customer_layout.findViewById(R.id.url_setting);
-    	// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-    	builder.setView(customer_layout);
+		builder.setTitle(activity.getString(R.string.input_server_url));
+		LayoutInflater inflater = activity.getLayoutInflater();
+		View customer_layout = inflater.inflate(R.layout.setting_view, null);
+		final EditText input = (EditText) customer_layout.findViewById(R.id.url_setting);
+		// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+		builder.setView(customer_layout);
 
-    	// Set up the buttons
-    	builder.setPositiveButton(activity.getString(R.string.ok), new DialogInterface.OnClickListener() { 
-    	    @Override
-    	    public void onClick(DialogInterface dialog, int which) {
-    	    	storeUrl(activity.getApplicationContext(), input.getText().toString());
-    	    }
-    	});
-    	builder.setNegativeButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-    	    @Override
-    	    public void onClick(DialogInterface dialog, int which) {
-    	        dialog.cancel();
-    	    }
-    	});
-    	return builder.show();
+		// Set up the buttons
+		builder.setPositiveButton(activity.getString(R.string.ok), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				String url = input.getText().toString();
+				storeUrl(activity.getApplicationContext(), url);
+				Toast.makeText(activity.getApplicationContext(), url + ", 设置完毕", Toast.LENGTH_SHORT).show();
+			}
+		});
+		builder.setNegativeButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		return builder.show();
 	}
-	
-	public static void storeUrl(Context ctx, String url){
+
+	public static void storeUrl(Context ctx, String url) {
 		SharedPreferences settings = ctx.getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(SHSICT_URL, url);
-        editor.commit();
-        Toast.makeText(ctx, url+", 设置完毕", Toast.LENGTH_SHORT).show();
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putString(SHSICT_URL, url);
+		editor.commit();
+	}
+
+	public static boolean isNetworkConnected(Context context) {
+		if (context != null) {
+			ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+			NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+			if (mNetworkInfo != null) {
+				return mNetworkInfo.isAvailable();
+			}
+		}
+		return false;
 	}
 }

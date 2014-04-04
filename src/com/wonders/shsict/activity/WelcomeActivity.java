@@ -17,30 +17,30 @@
 package com.wonders.shsict.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.ImageView;
 
 import com.wonders.shsict.R;
 import com.wonders.shsict.utils.ConfigUtil;
 
-public class WelcomeActivity extends Activity {
-	private AlertDialog alertDialog = null;
-	private Thread loopThread;
+public class WelcomeActivity extends Activity implements OnClickListener {
+	//	private AlertDialog alertDialog = null;
+	//	private Thread loopThread;
+	public static final int START_WITH_OUT_GO_TO_MAINPAGE = 777;
+	public static boolean first_create = true;
 
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_welcome);
-
-	}
-
-	@Override
-	protected void onStart() {
-		// TODO Auto-generated method stub
-		super.onStart();
+		ImageView iv = (ImageView)findViewById(R.id.welcomeView);
+		iv.setOnClickListener(this);
+		
 		Thread delayToMainPageThread = new Thread() {
 
 			@Override
@@ -48,9 +48,7 @@ public class WelcomeActivity extends Activity {
 				try {
 					super.run();
 					sleep(1000); //Delay of 5 seconds
-					Intent i = new Intent(WelcomeActivity.this, HomePageActivity.class);
-					startActivity(i);
-					finish();
+					goToMainPage(WelcomeActivity.this);
 				} catch (Exception e) {
 					//sleep error
 					e.printStackTrace();
@@ -60,12 +58,26 @@ public class WelcomeActivity extends Activity {
 		//判斷是否是第一次進入程序
 		String url = ConfigUtil.getShsictServiceURLString(WelcomeActivity.this);
 		if (url != null) {
+			if(first_create){
+				first_create = false;
+				delayToMainPageThread.start();
+			}
+		} else {
+			ConfigUtil.storeUrl(getApplicationContext(), getString(R.string.default_server_ip));
 			delayToMainPageThread.start();
-		} else if (alertDialog == null) {
-			alertDialog = ConfigUtil.showDialog(WelcomeActivity.this);
 		}
 
-		if (loopThread == null) {
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		//		if (alertDialog == null) {
+		//			alertDialog = ConfigUtil.showDialog(WelcomeActivity.this);
+		//		}
+
+		/*if (loopThread == null) {
 			loopThread = new Thread() {
 
 				@Override
@@ -99,18 +111,35 @@ public class WelcomeActivity extends Activity {
 
 			};
 		}
-		loopThread.start();
+		loopThread.start();*/
 
 	}
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
-		if (loopThread.isAlive()) {
+		/*if (loopThread.isAlive()) {
 			loopThread.interrupt();
 			loopThread = null;
-		}
+		}*/
 	}
 
+	@Override
+	public void onClick(View v) {
+		goToMainPage(WelcomeActivity.this);
+	}
+
+	public void goToMainPage(Activity activity) {
+		Intent i = new Intent(activity, HomePageActivity.class);
+		activity.startActivity(i);
+		activity.finish();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == Activity.RESULT_OK) {
+			if (requestCode == START_WITH_OUT_GO_TO_MAINPAGE)
+				first_create = false;
+		}
+	}
 }

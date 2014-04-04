@@ -18,5 +18,6 @@
     <string name="input_server_url">请输入服务器地址</string>
     <string name="url_setting_hint">如 http://10.1.25.21</string>
     <string name="default_server_ip">http://10.1.25.21</string>
+    <string name="error_promotion">您的网络异常，请重新连回因特网后再试</string>
 
 </resources>
