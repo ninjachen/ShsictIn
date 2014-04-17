@@ -13,11 +13,15 @@
     <string name="account_manage">帐号管理</string>
     <string name="favourite">收藏夹</string>
     <string name="setting">设置</string>
+    <string name="about">关于</string>
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
     <string name="input_server_url">请输入服务器地址</string>
-    <string name="url_setting_hint">如 http://10.1.25.21</string>
-    <string name="default_server_ip">http://10.1.25.21</string>
+    <string name="url_setting_hint">如 http://mobile.shsict.com:8080/</string>
+    <string name="default_server_ip">http://mobile.shsict.com:8080/</string>
     <string name="error_promotion">您的网络异常，请重新连回因特网后再试</string>
+    <string name="error_html">
+        &lt;html&gt;&lt;body style="backgroud:#f1f1f1; text-align:center"&gt;&lt;h4&gt;网络连接失败，请重连网络后再试&lt;&#047;h4&gt;&lt;&#047;body&gt;&lt;&#047;html&gt;
+    </string>
 
 </resources>

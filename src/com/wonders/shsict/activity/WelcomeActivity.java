@@ -22,6 +22,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 
 import com.wonders.shsict.R;
@@ -31,8 +33,8 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 	//	private AlertDialog alertDialog = null;
 	//	private Thread loopThread;
 	public static final int START_WITH_OUT_GO_TO_MAINPAGE = 777;
-	public static boolean first_create = true;
-
+//	public static boolean first_create = true;
+	private WebView webview;
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
@@ -41,92 +43,63 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 		ImageView iv = (ImageView)findViewById(R.id.welcomeView);
 		iv.setOnClickListener(this);
 		
-		Thread delayToMainPageThread = new Thread() {
-
+//		Thread delayToMainPageThread = new Thread() {
+//
+//			@Override
+//			public void run() {
+//				try {
+//					super.run();
+//					sleep(1000); //Delay of 5 seconds
+//					goToMainPage(WelcomeActivity.this);
+//				} catch (Exception e) {
+//					//sleep error
+//					e.printStackTrace();
+//				}
+//			}
+//		};
+		
+		webview = new WebView(WelcomeActivity.this);
+		
+		webview.setWebViewClient(new WebViewClient() {
+			
 			@Override
-			public void run() {
-				try {
-					super.run();
-					sleep(1000); //Delay of 5 seconds
-					goToMainPage(WelcomeActivity.this);
-				} catch (Exception e) {
-					//sleep error
-					e.printStackTrace();
-				}
+			public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 			}
-		};
-		//判斷是否是第一次進入程序
-		String url = ConfigUtil.getShsictServiceURLString(WelcomeActivity.this);
-		if (url != null) {
-			if(first_create){
-				first_create = false;
-				delayToMainPageThread.start();
-			}
-		} else {
-			ConfigUtil.storeUrl(getApplicationContext(), getString(R.string.default_server_ip));
-			delayToMainPageThread.start();
-		}
 
+			
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				super.onPageFinished(view, url);
+				goToMainPage(WelcomeActivity.this);
+			}
+			
+		});
+		String url = ConfigUtil.getShsictServiceURLString(this);
+		//假如是第一次进入
+		if(url == null){
+			url = getString(R.string.default_server_ip);
+			ConfigUtil.storeUrl(getApplicationContext(), getString(R.string.default_server_ip));
+		}
+			url += "/Portal.aspx";
+		webview.loadUrl(url);
+		
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
 
-		//		if (alertDialog == null) {
-		//			alertDialog = ConfigUtil.showDialog(WelcomeActivity.this);
-		//		}
-
-		/*if (loopThread == null) {
-			loopThread = new Thread() {
-
-				@Override
-				public void run() {
-					super.run();
-					try {
-						while (true) {
-							sleep(2000);
-							WelcomeActivity.this.runOnUiThread(new Runnable() {
-
-								@Override
-								public void run() {
-									String url = ConfigUtil.getShsictServiceURLString(WelcomeActivity.this);
-									if (url != null) {
-										Intent i = new Intent(WelcomeActivity.this, HomePageActivity.class);
-										startActivity(i);
-										WelcomeActivity.this.finish();
-									} else if (alertDialog == null) {
-										alertDialog = ConfigUtil.showDialog(WelcomeActivity.this);
-									} else if (!alertDialog.isShowing()) {
-										alertDialog.show();
-									}
-
-								}
-							});
-						}
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-
-			};
-		}
-		loopThread.start();*/
-
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		/*if (loopThread.isAlive()) {
-			loopThread.interrupt();
-			loopThread = null;
-		}*/
 	}
 
 	@Override
 	public void onClick(View v) {
-		goToMainPage(WelcomeActivity.this);
+		String url = ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx";
+		webview.loadUrl(url);
 	}
 
 	public void goToMainPage(Activity activity) {
@@ -137,9 +110,5 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == Activity.RESULT_OK) {
-			if (requestCode == START_WITH_OUT_GO_TO_MAINPAGE)
-				first_create = false;
 		}
-	}
 }

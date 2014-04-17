@@ -174,30 +174,30 @@ public class MainActivity extends FragmentActivity implements
 			return TAB_NUMBER;
 		}
 
-		@Override
-		public CharSequence getPageTitle(int position) {
-			String title;
-			switch (position) {
-			case 0:
-				title = "首页";
-				break;
-			case 1:
-				title = "在线查询";
-				break;
-			case 2:
-				title = "统计分析";
-				break;
-			case 3:
-				title = "我的关注";
-				break;
-			case 4:
-				title = "更多";
-				break;
-			default:
-				title = "";
-			}
-			return title;
-		}
+//		@Override
+//		public CharSequence getPageTitle(int position) {
+//			String title;
+//			switch (position) {
+//			case 0:
+//				title = "首页";
+//				break;
+//			case 1:
+//				title = "在线查询";
+//				break;
+//			case 2:
+//				title = "统计分析";
+//				break;
+//			case 3:
+//				title = "我的关注";
+//				break;
+//			case 4:
+//				title = "更多";
+//				break;
+//			default:
+//				title = "";
+//			}
+//			return title;
+//		}
 	}
 
 	@Override

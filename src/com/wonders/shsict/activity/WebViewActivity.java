@@ -25,7 +25,7 @@ public class WebViewActivity extends Activity {
 
 	protected int checkedItem = -1;
 	protected String[] urls = { "", "" };
-
+	private final String error_html = "<html><body style=\"backgroud:#F1F1F1; text-align:center\"><h4>网络连接失败，请连接网络后再试</h4></body></html>";
 	protected WebView webview;
 	protected String url;
 
@@ -99,14 +99,15 @@ public class WebViewActivity extends Activity {
 		});
 		webview.setWebViewClient(new WebViewClient() {
 			public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-				if (errorCode == WebViewClient.ERROR_HOST_LOOKUP && description.equals("net::ERR_ADDRESS_UNREACHABLE")) {
-//					 webview.loadUrl("content://"+activity.getResources().getAssets()+"loading.png");
-					
-					Intent i = new Intent(activity, WelcomeActivity.class);
-					activity.startActivityForResult(i, WelcomeActivity.START_WITH_OUT_GO_TO_MAINPAGE);
-					activity.finish();
-					Toast.makeText(activity, getString(R.string.error_promotion), Toast.LENGTH_LONG).show();
-				}
+				webview.loadData(error_html, "text/html", "UTF-8");
+//				if (errorCode == WebViewClient.ERROR_HOST_LOOKUP && description.equals("net::ERR_ADDRESS_UNREACHABLE")) {
+//					Intent i = new Intent(activity, WelcomeActivity.class);
+//					activity.startActivityForResult(i, WelcomeActivity.START_WITH_OUT_GO_TO_MAINPAGE);
+//					activity.finish();
+//					Toast.makeText(activity, getString(R.string.error_promotion), Toast.LENGTH_LONG).show();
+//				}else{
+//					webview.loadDataWithBaseURL(null, error_html, "text/html", "UTF-8", null);
+//				}
 			}
 		});
 		//		setWebViewUrl(WebViewActivity.this);
@@ -168,23 +169,30 @@ public class WebViewActivity extends Activity {
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.main_page_item:
-			webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx");
+			url = ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx";
+			webview.loadUrl(url);
 			break;
 		case R.id.seach_item:
-			webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/favourite.aspx");
+			url = ConfigUtil.getShsictServiceURLString(this) + "/favourite.aspx";
+			webview.loadUrl(url);
 			break;
 		case R.id.system_notice_item:
-			webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/notice.aspx");
+			url = ConfigUtil.getShsictServiceURLString(this) + "/notice.aspx";
+			webview.loadUrl(url);
 			break;
 		case R.id.account_manage_item:
-			webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/login.aspx");
+			url = ConfigUtil.getShsictServiceURLString(this) + "/login.aspx";
+			webview.loadUrl(url);
 			break;
 		case R.id.setting_item:
 			ConfigUtil.showDialog(this);
-
 			return true;
+		case R.id.about:
+			//about page do nothing
+			break;
 		default:
-			webview.loadUrl(ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx");
+			url = ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx";
+			webview.loadUrl(url);
 			break;
 		}
 		return true;

@@ -58,6 +58,11 @@ public class ConfigUtil {
 		LayoutInflater inflater = activity.getLayoutInflater();
 		View customer_layout = inflater.inflate(R.layout.setting_view, null);
 		final EditText input = (EditText) customer_layout.findViewById(R.id.url_setting);
+		//取出当前的服务器地址ip
+		String defalutUrl = getShsictServiceURLString(activity);
+		if(defalutUrl != null){
+			input.setText(defalutUrl);
+		}
 		// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
 		builder.setView(customer_layout);
 

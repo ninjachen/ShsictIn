@@ -38,5 +38,11 @@
         android:showAsAction="ifRoom|withText"
         android:title="@string/setting"
         />
+     
+     <item
+        android:id="@+id/about"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/about"
+        />
   
 </menu>
