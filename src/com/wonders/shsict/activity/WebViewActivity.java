@@ -6,7 +6,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -16,10 +15,10 @@ import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import com.wonders.shsict.R;
 import com.wonders.shsict.utils.ConfigUtil;
+import com.wonders.shsict.utils.WebAppInterface;
 
 public class WebViewActivity extends Activity {
 
@@ -27,10 +26,12 @@ public class WebViewActivity extends Activity {
 	protected String[] urls = { "", "" };
 	private final String error_html = "<html><body style=\"backgroud:#F1F1F1; text-align:center\"><h4>网络连接失败，请连接网络后再试</h4></body></html>";
 	protected WebView webview;
-	protected String url;
+	protected static String url;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		if(WebViewActivity.url == null)
+			WebViewActivity.url = ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx";
 
 		super.onCreate(savedInstanceState);
 		getWindow().requestFeature(Window.FEATURE_PROGRESS);
@@ -101,15 +102,11 @@ public class WebViewActivity extends Activity {
 			public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 				webview.loadData(error_html, "text/html", "UTF-8");
 //				if (errorCode == WebViewClient.ERROR_HOST_LOOKUP && description.equals("net::ERR_ADDRESS_UNREACHABLE")) {
-//					Intent i = new Intent(activity, WelcomeActivity.class);
-//					activity.startActivityForResult(i, WelcomeActivity.START_WITH_OUT_GO_TO_MAINPAGE);
-//					activity.finish();
-//					Toast.makeText(activity, getString(R.string.error_promotion), Toast.LENGTH_LONG).show();
-//				}else{
-//					webview.loadDataWithBaseURL(null, error_html, "text/html", "UTF-8", null);
-//				}
 			}
 		});
+		//暴露给javascript接口
+		webview.addJavascriptInterface(new WebAppInterface(WebViewActivity.this), "Mobile");
+		webview.loadUrl(url);
 		//		setWebViewUrl(WebViewActivity.this);
 	}
 
@@ -136,7 +133,6 @@ public class WebViewActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		url = ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx";
 		refreshWebView(this);
 	}
 
@@ -169,20 +165,20 @@ public class WebViewActivity extends Activity {
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.main_page_item:
-			url = ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx";
-			webview.loadUrl(url);
+			WebViewActivity.url = ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx";
+			webview.loadUrl(WebViewActivity.url);
 			break;
 		case R.id.seach_item:
-			url = ConfigUtil.getShsictServiceURLString(this) + "/favourite.aspx";
-			webview.loadUrl(url);
+			WebViewActivity.url = ConfigUtil.getShsictServiceURLString(this) + "/favourite.aspx";
+			webview.loadUrl(WebViewActivity.url);
 			break;
 		case R.id.system_notice_item:
-			url = ConfigUtil.getShsictServiceURLString(this) + "/notice.aspx";
-			webview.loadUrl(url);
+			WebViewActivity.url = ConfigUtil.getShsictServiceURLString(this) + "/notice.aspx";
+			webview.loadUrl(WebViewActivity.url);
 			break;
 		case R.id.account_manage_item:
-			url = ConfigUtil.getShsictServiceURLString(this) + "/login.aspx";
-			webview.loadUrl(url);
+			WebViewActivity.url = ConfigUtil.getShsictServiceURLString(this) + "/login.aspx";
+			webview.loadUrl(WebViewActivity.url);
 			break;
 		case R.id.setting_item:
 			ConfigUtil.showDialog(this);
@@ -191,10 +187,19 @@ public class WebViewActivity extends Activity {
 			//about page do nothing
 			break;
 		default:
-			url = ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx";
-			webview.loadUrl(url);
+			WebViewActivity.url = ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx";
+			webview.loadUrl(WebViewActivity.url);
 			break;
 		}
 		return true;
 	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		WebViewActivity.url = webview.getUrl();
+	}
+	
+	
 }
