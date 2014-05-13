@@ -2,7 +2,6 @@ package com.wonders.shsict.utils;
 
 import android.content.Context;
 import android.webkit.JavascriptInterface;
-import android.widget.Toast;
 
 /**
  * 暴露给javascript的接口
@@ -11,7 +10,7 @@ import android.widget.Toast;
  */
 public class WebAppInterface {
 	
-	public static String user;
+	public static String user = null;
 	
 	Context mContext;
 
@@ -26,6 +25,6 @@ public class WebAppInterface {
     	
     	WebAppInterface.user = toast;
     	
-        Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
     }
 }

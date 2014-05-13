@@ -16,19 +16,20 @@ import com.wonders.shsict.R;
 
 public class ConfigUtil {
 	protected static final String PREFS_NAME = "ShsictSetting";
-	protected static final String SHSICT_URL = "ShsictUrl";
-	protected static final String SHSICT_URL_DEFAULT = "http://10.1.25.21";
+	protected static final String SHSICT_URL_DEFAULT = "http://mobile.shsict.com:8080/";
+	protected static String SHSICT_URL = SHSICT_URL_DEFAULT;
 
 	/**
 	 * 
 	 * @return eg http://1.1.1.1:8080
 	 */
-	public static String getShsictServiceURLString(Activity activity) {
+	public static String cacheShsictURL(Activity activity) {
 		SharedPreferences settings = activity.getSharedPreferences(PREFS_NAME, 0);
 		String url = settings.getString(SHSICT_URL, "ERROR");
 		if (url.equals("ERROR")) {
 			return null;
 		} else {
+			SHSICT_URL = url;
 			return url;
 		}
 	}
@@ -59,7 +60,7 @@ public class ConfigUtil {
 		View customer_layout = inflater.inflate(R.layout.setting_view, null);
 		final EditText input = (EditText) customer_layout.findViewById(R.id.url_setting);
 		//取出当前的服务器地址ip
-		String defalutUrl = getShsictServiceURLString(activity);
+		String defalutUrl = cacheShsictURL(activity);
 		if(defalutUrl != null){
 			input.setText(defalutUrl);
 		}

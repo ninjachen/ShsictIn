@@ -74,7 +74,7 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 			}
 			
 		});
-		String url = ConfigUtil.getShsictServiceURLString(this);
+		String url = ConfigUtil.cacheShsictURL(this);
 		//假如是第一次进入
 		if(url == null){
 			url = getString(R.string.default_server_ip);
@@ -98,12 +98,12 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		String url = ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx";
+		String url = ConfigUtil.cacheShsictURL(this) + "/Portal.aspx";
 		webview.loadUrl(url);
 	}
 
 	public void goToMainPage(Activity activity) {
-		Intent i = new Intent(activity, HomePageActivity.class);
+		Intent i = new Intent(activity, WebViewActivity.class);
 		activity.startActivity(i);
 		activity.finish();
 	}

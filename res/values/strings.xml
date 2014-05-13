@@ -23,5 +23,8 @@
     <string name="error_html">
         &lt;html&gt;&lt;body style="backgroud:#f1f1f1; text-align:center"&gt;&lt;h4&gt;网络连接失败，请重连网络后再试&lt;&#047;h4&gt;&lt;&#047;body&gt;&lt;&#047;html&gt;
     </string>
+    <string name="notification_title">您关注的内容有更新</string>
+    <string name="notification_text">点击查看</string>
+        
 
 </resources>

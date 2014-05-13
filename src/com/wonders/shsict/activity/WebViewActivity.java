@@ -5,7 +5,10 @@ import java.util.Locale;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -17,26 +20,50 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.wonders.shsict.R;
+import com.wonders.shsict.service.ScheduleService;
 import com.wonders.shsict.utils.ConfigUtil;
+import com.wonders.shsict.utils.ScheduleUtil;
 import com.wonders.shsict.utils.WebAppInterface;
 
 public class WebViewActivity extends Activity {
-
+	private final static int INTERVAL = 60;
+	public final static String GOTO_Favourite = "gotoFavourite";
 	protected int checkedItem = -1;
 	protected String[] urls = { "", "" };
 	private final String error_html = "<html><body style=\"backgroud:#F1F1F1; text-align:center\"><h4>网络连接失败，请连接网络后再试</h4></body></html>";
 	protected WebView webview;
+	//current url
 	protected static String url;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		if(WebViewActivity.url == null)
-			WebViewActivity.url = ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx";
+		if (WebViewActivity.url == null)
+			WebViewActivity.url = ConfigUtil.cacheShsictURL(this) + "/Portal.aspx";
 
 		super.onCreate(savedInstanceState);
 		getWindow().requestFeature(Window.FEATURE_PROGRESS);
 		setContentView(R.layout.activity_fullscreen);
 		initWebview();
+		ScheduleUtil.startSchedule(this, INTERVAL, ScheduleService.class, ScheduleService.ACTION);
+		
+		// 接收Intent传过来的数据  
+		Intent intent = getIntent(); 
+		Boolean gotoFavourite = intent.getBooleanExtra(GOTO_Favourite, false); // 接收Intent的数据  
+		if(gotoFavourite){
+			NotificationManager mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			mManager.cancel(0);
+			gotoFavourite();
+		}
+	}
+
+	/**
+	 * 跳转favourite界面,
+	 * 用于配合notification
+	 */
+	private void gotoFavourite() {
+		String favourite = ConfigUtil.cacheShsictURL(this) + "/favourite.aspx";
+		url = favourite;
+		webview.loadUrl(url);
 	}
 
 	@Override
@@ -65,7 +92,7 @@ public class WebViewActivity extends Activity {
 				webview.goBack();
 			} else {
 				//否则返回首页id
-				webview.loadUrl(ConfigUtil.getShsictServiceURLString(WebViewActivity.this) + "/Portal.aspx");
+				webview.loadUrl(ConfigUtil.cacheShsictURL(WebViewActivity.this) + "/Portal.aspx");
 			}
 			return true;
 		}
@@ -81,6 +108,7 @@ public class WebViewActivity extends Activity {
 		webview = (WebView) findViewById(R.id.webview);
 		webview.getSettings().setSupportZoom(false);
 		webview.getSettings().setJavaScriptEnabled(true);
+		webview.getSettings().setDefaultTextEncodingName("UTF-8");
 		webview.requestFocus();
 		//是否堵塞网络图片
 		webview.getSettings().setBlockNetworkImage(false);
@@ -101,7 +129,7 @@ public class WebViewActivity extends Activity {
 		webview.setWebViewClient(new WebViewClient() {
 			public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 				webview.loadData(error_html, "text/html", "UTF-8");
-//				if (errorCode == WebViewClient.ERROR_HOST_LOOKUP && description.equals("net::ERR_ADDRESS_UNREACHABLE")) {
+				//				if (errorCode == WebViewClient.ERROR_HOST_LOOKUP && description.equals("net::ERR_ADDRESS_UNREACHABLE")) {
 			}
 		});
 		//暴露给javascript接口
@@ -165,19 +193,19 @@ public class WebViewActivity extends Activity {
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.main_page_item:
-			WebViewActivity.url = ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx";
+			WebViewActivity.url = ConfigUtil.cacheShsictURL(this) + "/Portal.aspx";
 			webview.loadUrl(WebViewActivity.url);
 			break;
 		case R.id.seach_item:
-			WebViewActivity.url = ConfigUtil.getShsictServiceURLString(this) + "/favourite.aspx";
+			WebViewActivity.url = ConfigUtil.cacheShsictURL(this) + "/favourite.aspx";
 			webview.loadUrl(WebViewActivity.url);
 			break;
 		case R.id.system_notice_item:
-			WebViewActivity.url = ConfigUtil.getShsictServiceURLString(this) + "/notice.aspx";
+			WebViewActivity.url = ConfigUtil.cacheShsictURL(this) + "/notice.aspx";
 			webview.loadUrl(WebViewActivity.url);
 			break;
 		case R.id.account_manage_item:
-			WebViewActivity.url = ConfigUtil.getShsictServiceURLString(this) + "/login.aspx";
+			WebViewActivity.url = ConfigUtil.cacheShsictURL(this) + "/login.aspx";
 			webview.loadUrl(WebViewActivity.url);
 			break;
 		case R.id.setting_item:
@@ -187,7 +215,7 @@ public class WebViewActivity extends Activity {
 			//about page do nothing
 			break;
 		default:
-			WebViewActivity.url = ConfigUtil.getShsictServiceURLString(this) + "/Portal.aspx";
+			WebViewActivity.url = ConfigUtil.cacheShsictURL(this) + "/Portal.aspx";
 			webview.loadUrl(WebViewActivity.url);
 			break;
 		}
@@ -200,6 +228,6 @@ public class WebViewActivity extends Activity {
 		super.onPause();
 		WebViewActivity.url = webview.getUrl();
 	}
-	
+
 	
 }
