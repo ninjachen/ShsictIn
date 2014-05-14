@@ -25,6 +25,8 @@
     </string>
     <string name="notification_title">您关注的内容有更新</string>
     <string name="notification_text">点击查看</string>
+    <string name="vertion_title">版本信息</string>
+    <string name="vertion_detail">v0514 更新内容：通知提示，通知音效，通知红点</string>
         
 
 </resources>

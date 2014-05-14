@@ -9,11 +9,16 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -27,6 +32,7 @@ import com.wonders.shsict.utils.WebAppInterface;
 
 public class WebViewActivity extends Activity {
 	private final static int INTERVAL = 60;
+	public static boolean isFavouriteUpdate = false;
 	public final static String GOTO_Favourite = "gotoFavourite";
 	protected int checkedItem = -1;
 	protected String[] urls = { "", "" };
@@ -52,6 +58,7 @@ public class WebViewActivity extends Activity {
 		if(gotoFavourite){
 			NotificationManager mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 			mManager.cancel(0);
+			isFavouriteUpdate = false;
 			gotoFavourite();
 		}
 	}
@@ -157,6 +164,20 @@ public class WebViewActivity extends Activity {
 		inflater.inflate(R.menu.menu, menu);
 		return true;
 	}
+	
+	
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if(isFavouriteUpdate){
+		MenuItem mi = menu.findItem(R.id.seach_item);
+		mi.setIcon(R.drawable.f1_2);
+		}else{
+			MenuItem mi = menu.findItem(R.id.seach_item);
+			mi.setIcon(R.drawable.f1);
+		}
+		return super.onPrepareOptionsMenu(menu);
+	}
 
 	@Override
 	protected void onStart() {
@@ -197,6 +218,7 @@ public class WebViewActivity extends Activity {
 			webview.loadUrl(WebViewActivity.url);
 			break;
 		case R.id.seach_item:
+			isFavouriteUpdate = false;
 			WebViewActivity.url = ConfigUtil.cacheShsictURL(this) + "/favourite.aspx";
 			webview.loadUrl(WebViewActivity.url);
 			break;
@@ -212,7 +234,11 @@ public class WebViewActivity extends Activity {
 			ConfigUtil.showDialog(this);
 			return true;
 		case R.id.about:
-			//about page do nothing
+			showAbout();
+//			playRingTone(getApplicationContext());
+//			Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+//			vibrator.vibrate(400);
+//			vibrator = null;
 			break;
 		default:
 			WebViewActivity.url = ConfigUtil.cacheShsictURL(this) + "/Portal.aspx";
@@ -229,5 +255,53 @@ public class WebViewActivity extends Activity {
 		WebViewActivity.url = webview.getUrl();
 	}
 
+	/**
+	 * @param activity
+	 * @return
+	 */
+	public AlertDialog showAbout() {
+		Activity activity = this;
+		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+		builder.setTitle(activity.getString(R.string.vertion_title));
+		LayoutInflater inflater = activity.getLayoutInflater();
+		View customer_layout = inflater.inflate(R.layout.about_view, null);
+		// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+		builder.setView(customer_layout);
+
+		// Set up the buttons
+		builder.setPositiveButton(activity.getString(R.string.ok), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+//		builder.setNegativeButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//				dialog.cancel();
+//			}
+//		});
+		return builder.show();
+	}
+	
+	public static void playRingTone(Context ctx){
+//		Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+//		Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+		//alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+		Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+							Ringtone r = RingtoneManager.getRingtone(ctx, notification);
+							r.play(); 
+	}
+	
+	public void enableFavouriteUpdate(){
+		isFavouriteUpdate = true;
+		getWindow().invalidatePanelMenu(Window.FEATURE_OPTIONS_PANEL);
+	}
+	
+	
+	public void disableFavouriteUpdate(){
+		isFavouriteUpdate = false;
+		getWindow().invalidatePanelMenu(Window.FEATURE_OPTIONS_PANEL);
+	}
 	
 }

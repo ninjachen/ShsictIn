@@ -30,14 +30,15 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class drawable {
         public static final int e1=0x7f020000;
         public static final int f1=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int loading=0x7f020003;
-        public static final int m1=0x7f020004;
-        public static final int m2=0x7f020005;
-        public static final int m3=0x7f020006;
-        public static final int m4=0x7f020007;
-        public static final int m5=0x7f020008;
-        public static final int n1=0x7f020009;
+        public static final int f1_2=0x7f020002;
+        public static final int ic_launcher=0x7f020003;
+        public static final int loading=0x7f020004;
+        public static final int m1=0x7f020005;
+        public static final int m2=0x7f020006;
+        public static final int m3=0x7f020007;
+        public static final int m4=0x7f020008;
+        public static final int m5=0x7f020009;
+        public static final int n1=0x7f02000a;
     }
     public static final class id {
         public static final int about=0x7f09000b;
@@ -54,18 +55,19 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int welcomeView=0x7f090003;
     }
     public static final class layout {
-        public static final int activity_fullscreen=0x7f030000;
-        public static final int activity_main=0x7f030001;
-        public static final int activity_message=0x7f030002;
-        public static final int activity_message_client=0x7f030003;
-        public static final int activity_welcome=0x7f030004;
-        public static final int fragment_section_webview=0x7f030005;
-        public static final int setting_view=0x7f030006;
-        public static final int tab_analysis=0x7f030007;
-        public static final int tab_main_page=0x7f030008;
-        public static final int tab_more=0x7f030009;
-        public static final int tab_my_follows=0x7f03000a;
-        public static final int tab_online_query=0x7f03000b;
+        public static final int about_view=0x7f030000;
+        public static final int activity_fullscreen=0x7f030001;
+        public static final int activity_main=0x7f030002;
+        public static final int activity_message=0x7f030003;
+        public static final int activity_message_client=0x7f030004;
+        public static final int activity_welcome=0x7f030005;
+        public static final int fragment_section_webview=0x7f030006;
+        public static final int setting_view=0x7f030007;
+        public static final int tab_analysis=0x7f030008;
+        public static final int tab_main_page=0x7f030009;
+        public static final int tab_more=0x7f03000a;
+        public static final int tab_my_follows=0x7f03000b;
+        public static final int tab_online_query=0x7f03000c;
     }
     public static final class menu {
         public static final int menu=0x7f080000;
@@ -94,6 +96,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int setting=0x7f06000a;
         public static final int system_notice=0x7f060007;
         public static final int url_setting_hint=0x7f06000f;
+        public static final int vertion_detail=0x7f060016;
+        public static final int vertion_title=0x7f060015;
     }
     public static final class style {
         /** 

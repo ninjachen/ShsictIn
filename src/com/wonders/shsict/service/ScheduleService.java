@@ -87,6 +87,8 @@ public class ScheduleService extends Service {
 		//		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i, Intent.FLAG_ACTIVITY_SINGLE_TOP);//FLAG_ACTIVITY_NEW_TASK
 		//		mNotification.setLatestEventInfo(this, getResources().getString(R.string.app_name), getResources().getString(R.string.notification_message), pendingIntent);
 		mManager.notify(0, mNotification);
+		WebViewActivity.isFavouriteUpdate = true;
+		WebViewActivity.playRingTone(getApplicationContext());
 	}
 
 	/** 
