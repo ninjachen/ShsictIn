@@ -58,16 +58,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int about_view=0x7f030000;
         public static final int activity_fullscreen=0x7f030001;
         public static final int activity_main=0x7f030002;
-        public static final int activity_message=0x7f030003;
-        public static final int activity_message_client=0x7f030004;
-        public static final int activity_welcome=0x7f030005;
-        public static final int fragment_section_webview=0x7f030006;
-        public static final int setting_view=0x7f030007;
-        public static final int tab_analysis=0x7f030008;
-        public static final int tab_main_page=0x7f030009;
-        public static final int tab_more=0x7f03000a;
-        public static final int tab_my_follows=0x7f03000b;
-        public static final int tab_online_query=0x7f03000c;
+        public static final int activity_welcome=0x7f030003;
+        public static final int fragment_section_webview=0x7f030004;
+        public static final int setting_view=0x7f030005;
+        public static final int tab_analysis=0x7f030006;
+        public static final int tab_main_page=0x7f030007;
+        public static final int tab_more=0x7f030008;
+        public static final int tab_my_follows=0x7f030009;
+        public static final int tab_online_query=0x7f03000a;
     }
     public static final class menu {
         public static final int menu=0x7f080000;

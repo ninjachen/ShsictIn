@@ -2,7 +2,7 @@
 <resources>
 
     <!-- <string name="app_name">Shsict</string> -->
-    <string name="app_name">盛东船舶</string>
+    <string name="app_name">盛东查询</string>
     <string name="main_page">首页</string>
     <string name="online_query">在线查询</string>
     <string name="analysis">统计分析</string>

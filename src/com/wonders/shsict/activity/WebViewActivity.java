@@ -135,7 +135,8 @@ public class WebViewActivity extends Activity {
 		});
 		webview.setWebViewClient(new WebViewClient() {
 			public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-				webview.loadData(error_html, "text/html", "UTF-8");
+//				webview.loadData(error_html, "text/html", "UTF-8");
+				webview.loadDataWithBaseURL(null, error_html, "text/html", "UTF-8", null);
 				//				if (errorCode == WebViewClient.ERROR_HOST_LOOKUP && description.equals("net::ERR_ADDRESS_UNREACHABLE")) {
 			}
 		});
