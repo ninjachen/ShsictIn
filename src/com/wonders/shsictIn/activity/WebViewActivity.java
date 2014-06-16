@@ -1,4 +1,4 @@
-package com.wonders.shsict.activity;
+package com.wonders.shsictIn.activity;
 
 import java.util.Locale;
 
@@ -13,6 +13,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,15 +21,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.webkit.CookieManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
-import com.wonders.shsict.R;
-import com.wonders.shsict.service.ScheduleService;
-import com.wonders.shsict.utils.ConfigUtil;
-import com.wonders.shsict.utils.ScheduleUtil;
-import com.wonders.shsict.utils.WebAppInterface;
+import com.wonders.shsictIn.BuildConfig;
+import com.wonders.shsictIn.R;
+import com.wonders.shsictIn.service.ScheduleService;
+import com.wonders.shsictIn.utils.ConfigUtil;
+import com.wonders.shsictIn.utils.ScheduleUtil;
+import com.wonders.shsictIn.utils.WebAppInterface;
 
 public class WebViewActivity extends Activity {
 	private final static int INTERVAL = 60;
@@ -44,7 +48,7 @@ public class WebViewActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		if (WebViewActivity.url == null)
-			WebViewActivity.url = ConfigUtil.cacheShsictURL(this) + "/Portal.aspx";
+			WebViewActivity.url = ConfigUtil.getCachedShsictURL(this) + "/Portal";
 
 		super.onCreate(savedInstanceState);
 		getWindow().requestFeature(Window.FEATURE_PROGRESS);
@@ -68,7 +72,7 @@ public class WebViewActivity extends Activity {
 	 * 用于配合notification
 	 */
 	private void gotoFavourite() {
-		String favourite = ConfigUtil.cacheShsictURL(this) + "/favourite.aspx";
+		String favourite = ConfigUtil.getCachedShsictURL(this) + "/MechanicalError";
 		url = favourite;
 		webview.loadUrl(url);
 	}
@@ -78,7 +82,7 @@ public class WebViewActivity extends Activity {
 		//當前界面是首頁
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 
-			if (webview.getUrl().toLowerCase(Locale.US).indexOf("portal.aspx") > -1) {
+			if (webview.getUrl().toLowerCase(Locale.US).indexOf("portal") > -1) {
 
 				new AlertDialog.Builder(this).setTitle("确认退出吗？").setIcon(android.R.drawable.ic_dialog_info).setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
@@ -99,7 +103,7 @@ public class WebViewActivity extends Activity {
 				webview.goBack();
 			} else {
 				//否则返回首页id
-				webview.loadUrl(ConfigUtil.cacheShsictURL(WebViewActivity.this) + "/Portal.aspx");
+				webview.loadUrl(ConfigUtil.getCachedShsictURL(WebViewActivity.this) + "/Portal");
 			}
 			return true;
 		}
@@ -142,6 +146,9 @@ public class WebViewActivity extends Activity {
 		});
 		//暴露给javascript接口
 		webview.addJavascriptInterface(new WebAppInterface(WebViewActivity.this), "Mobile");
+		if(BuildConfig.DEBUG)
+			Toast.makeText(activity, "Goto "+url, Toast.LENGTH_LONG).show();
+		
 		webview.loadUrl(url);
 		//		setWebViewUrl(WebViewActivity.this);
 	}
@@ -154,6 +161,14 @@ public class WebViewActivity extends Activity {
 			// 如果不需要其他对点击链接事件的处理返回true，否则返回false
 			return true;
 		}
+		
+		@Override
+		 public void onPageFinished(WebView view, String url) {
+	            CookieManager cookieManager = CookieManager.getInstance();
+	            String CookieStr = cookieManager.getCookie(url);
+	            Log.e("ninja", "Cookies = " + CookieStr + " , url = " + url);
+	            super.onPageFinished(view, url);
+        }
 	}
 
 	/*
@@ -171,10 +186,10 @@ public class WebViewActivity extends Activity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if(isFavouriteUpdate){
-		MenuItem mi = menu.findItem(R.id.seach_item);
+		MenuItem mi = menu.findItem(R.id.favourite_item);
 		mi.setIcon(R.drawable.f1_2);
 		}else{
-			MenuItem mi = menu.findItem(R.id.seach_item);
+			MenuItem mi = menu.findItem(R.id.favourite_item);
 			mi.setIcon(R.drawable.f1);
 		}
 		return super.onPrepareOptionsMenu(menu);
@@ -215,34 +230,41 @@ public class WebViewActivity extends Activity {
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.main_page_item:
-			WebViewActivity.url = ConfigUtil.cacheShsictURL(this) + "/Portal.aspx";
+			
+			WebViewActivity.url = ConfigUtil.getCachedShsictURL(this) + "/Portal";
+			if(BuildConfig.DEBUG)
+				Toast.makeText(getApplicationContext(), "click main page, url "+ WebViewActivity.url, Toast.LENGTH_LONG).show();
 			webview.loadUrl(WebViewActivity.url);
 			break;
-		case R.id.seach_item:
+		case R.id.favourite_item:
 			isFavouriteUpdate = false;
-			WebViewActivity.url = ConfigUtil.cacheShsictURL(this) + "/favourite.aspx";
+			WebViewActivity.url = ConfigUtil.getCachedShsictURL(this) + "/MechanicalError";
+			if(BuildConfig.DEBUG)
+				Toast.makeText(getApplicationContext(), "click main page, url "+ WebViewActivity.url, Toast.LENGTH_LONG).show();
+			
 			webview.loadUrl(WebViewActivity.url);
 			break;
-		case R.id.system_notice_item:
-			WebViewActivity.url = ConfigUtil.cacheShsictURL(this) + "/notice.aspx";
-			webview.loadUrl(WebViewActivity.url);
-			break;
+//		case R.id.system_notice_item:
+//			WebViewActivity.url = ConfigUtil.cacheShsictURL(this) + "/notice.aspx";
+//			webview.loadUrl(WebViewActivity.url);
+//			break;
 		case R.id.account_manage_item:
-			WebViewActivity.url = ConfigUtil.cacheShsictURL(this) + "/login.aspx";
+			WebViewActivity.url = ConfigUtil.getCachedShsictURL(this) + "/Login/Phone";
 			webview.loadUrl(WebViewActivity.url);
 			break;
 		case R.id.setting_item:
 			ConfigUtil.showDialog(this);
 			return true;
 		case R.id.about:
-			showAbout();
+//			showAbout();
+			Toast.makeText(getApplicationContext(), ConfigUtil.getUIDFromCookie(ConfigUtil.getCachedShsictURL(this)), Toast.LENGTH_SHORT).show();
 //			playRingTone(getApplicationContext());
 //			Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 //			vibrator.vibrate(400);
 //			vibrator = null;
 			break;
 		default:
-			WebViewActivity.url = ConfigUtil.cacheShsictURL(this) + "/Portal.aspx";
+			WebViewActivity.url = ConfigUtil.getCachedShsictURL(this) + "/Portal";
 			webview.loadUrl(WebViewActivity.url);
 			break;
 		}

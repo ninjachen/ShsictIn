@@ -1,4 +1,4 @@
-package com.wonders.shsict.utils;
+package com.wonders.shsictIn.utils;
 
 import android.content.Context;
 import android.webkit.JavascriptInterface;

@@ -8,30 +8,32 @@
         android:showAsAction="ifRoom|withText"
         android:title="@string/main_page"
         />
-        
+    
+    <!-- 帐号管理login -->
+    <item
+        android:id="@+id/account_manage_item"
+        android:icon="@drawable/m4"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/account_manage"
+        />
+    
     <!-- 收藏夹favourite -->
     <item
-        android:id="@+id/seach_item"
+        android:id="@+id/favourite_item"
         android:icon="@drawable/f1"
         android:showAsAction="ifRoom|withText"
         android:title="@string/favourite"
         />
         
     <!-- 系统公告notice -->
-    <item
+    <!-- <item
         android:id="@+id/system_notice_item"
         android:icon="@drawable/n1"
         android:showAsAction="ifRoom|withText"
         android:title="@string/system_notice"
         />
-        
-    <!-- 帐号管理login -->
-    <item
-        android:id="@+id/account_manage_item"
-        android:icon="@drawable/e1"
-        android:showAsAction="ifRoom|withText"
-        android:title="@string/account_manage"
-        />
+         -->
+    
         
      <item
         android:id="@+id/setting_item"

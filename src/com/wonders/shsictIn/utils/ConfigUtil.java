@@ -1,4 +1,4 @@
-package com.wonders.shsict.utils;
+package com.wonders.shsictIn.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,28 +9,33 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.wonders.shsict.R;
+import com.wonders.shsictIn.R;
 
 public class ConfigUtil {
-	protected static final String PREFS_NAME = "ShsictSetting";
-	protected static final String SHSICT_URL_DEFAULT = "http://mobile.shsict.com:8080/";
-	protected static String SHSICT_URL = SHSICT_URL_DEFAULT;
+	protected static final String PREFS_NAME = "ShsictInSetting";
+	protected static String SHSICT_URL = "SERVER_IP_PORT";
+	public static String cachedServerIp = null;
 
+	
 	/**
 	 * 
 	 * @return eg http://1.1.1.1:8080
 	 */
-	public static String cacheShsictURL(Activity activity) {
+	public static String getCachedShsictURL(Activity activity) {
+		if(cachedServerIp != null)
+			return cachedServerIp;
+		
 		SharedPreferences settings = activity.getSharedPreferences(PREFS_NAME, 0);
 		String url = settings.getString(SHSICT_URL, "ERROR");
 		if (url.equals("ERROR")) {
 			return null;
 		} else {
-			SHSICT_URL = url;
-			return url;
+			cachedServerIp = url;
+			return cachedServerIp;
 		}
 	}
 
@@ -60,7 +65,7 @@ public class ConfigUtil {
 		View customer_layout = inflater.inflate(R.layout.setting_view, null);
 		final EditText input = (EditText) customer_layout.findViewById(R.id.url_setting);
 		//取出当前的服务器地址ip
-		String defalutUrl = cacheShsictURL(activity);
+		String defalutUrl = getCachedShsictURL(activity);
 		if(defalutUrl != null){
 			input.setText(defalutUrl);
 		}
@@ -86,6 +91,7 @@ public class ConfigUtil {
 	}
 
 	public static void storeUrl(Context ctx, String url) {
+		cachedServerIp = url;
 		SharedPreferences settings = ctx.getSharedPreferences(PREFS_NAME, 0);
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putString(SHSICT_URL, url);
@@ -101,5 +107,29 @@ public class ConfigUtil {
 			}
 		}
 		return false;
+	}
+	
+	public static String getUIDFromCookie(String url){
+		String uid = null;
+		
+		try {
+			CookieManager cm = CookieManager.getInstance();
+			String cookies = cm.getCookie(url);
+			String[] cookieArray = cookies.split(";");
+			for(String cookie : cookieArray){
+				if(cookie.contains("uid")){
+					int indexOfValue = cookie.indexOf("=") + 1;
+					uid = cookie.substring(indexOfValue);
+					break;
+				}
+			}
+			if(uid == null || uid.trim().equals(""))
+				return null;
+						
+			return uid;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

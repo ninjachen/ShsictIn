@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.wonders.shsict.activity;
+package com.wonders.shsictIn.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -25,9 +25,11 @@ import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.wonders.shsict.R;
-import com.wonders.shsict.utils.ConfigUtil;
+import com.wonders.shsictIn.BuildConfig;
+import com.wonders.shsictIn.R;
+import com.wonders.shsictIn.utils.ConfigUtil;
 
 public class WelcomeActivity extends Activity implements OnClickListener {
 	//	private AlertDialog alertDialog = null;
@@ -74,13 +76,15 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 			}
 			
 		});
-		String url = ConfigUtil.cacheShsictURL(this);
+		String url = ConfigUtil.getCachedShsictURL(this);
 		//假如是第一次进入
 		if(url == null){
 			url = getString(R.string.default_server_ip);
-			ConfigUtil.storeUrl(getApplicationContext(), getString(R.string.default_server_ip));
+			ConfigUtil.storeUrl(getApplicationContext(), url);
+			if(BuildConfig.DEBUG)
+				Toast.makeText(getApplicationContext(), "init-setDefaultUrl "+url, Toast.LENGTH_LONG).show();
 		}
-			url += "/Portal.aspx";
+			url += "/Portal";
 		webview.loadUrl(url);
 		
 	}
@@ -98,7 +102,7 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		String url = ConfigUtil.cacheShsictURL(this) + "/Portal.aspx";
+		String url = ConfigUtil.getCachedShsictURL(this) + "/Portal";
 		webview.loadUrl(url);
 	}
 

@@ -1,4 +1,4 @@
-package com.wonders.shsict.activity;
+package com.wonders.shsictIn.activity;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -16,7 +16,7 @@ import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.Window;
 
-import com.wonders.shsict.R;
+import com.wonders.shsictIn.R;
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {

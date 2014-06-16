@@ -2,7 +2,7 @@
 <resources>
 
     <!-- <string name="app_name">Shsict</string> -->
-    <string name="app_name">盛东查询</string>
+    <string name="app_name">盛东内部查询</string>
     <string name="main_page">首页</string>
     <string name="online_query">在线查询</string>
     <string name="analysis">统计分析</string>
@@ -11,14 +11,14 @@
     <string name="seach">搜索</string>
     <string name="system_notice">系统公告</string>
     <string name="account_manage">帐号管理</string>
-    <string name="favourite">收藏夹</string>
+    <string name="favourite">通知</string>
     <string name="setting">设置</string>
     <string name="about">关于</string>
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
     <string name="input_server_url">请输入服务器地址</string>
-    <string name="url_setting_hint">如 http://mobile.shsict.com:8080/</string>
-    <string name="default_server_ip">http://mobile.shsict.com:8080/</string>
+    <string name="url_setting_hint">如 http://10.1.43.144/</string>
+    <string name="default_server_ip">http://10.1.43.144/</string>
     <string name="error_promotion">您的网络异常，请重新连回因特网后再试</string>
     <string name="error_html">
         &lt;html&gt;&lt;body style="backgroud:#f1f1f1; text-align:center"&gt;&lt;h4&gt;网络连接失败，请重连网络后再试&lt;&#047;h4&gt;&lt;&#047;body&gt;&lt;&#047;html&gt;
@@ -26,7 +26,7 @@
     <string name="notification_title">您关注的内容有更新</string>
     <string name="notification_text">点击查看</string>
     <string name="vertion_title">版本信息</string>
-    <string name="vertion_detail">v0514 更新内容：通知提示，通知音效，通知红点</string>
+    <string name="vertion_detail">v1.0.3</string>
         
 
 </resources>

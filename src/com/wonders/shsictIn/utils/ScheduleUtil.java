@@ -1,4 +1,4 @@
-package com.wonders.shsict.utils;
+package com.wonders.shsictIn.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -16,7 +16,7 @@ import android.content.Intent;
 import android.os.SystemClock;
 import android.util.Log;
 
-import com.wonders.shsict.BuildConfig;
+import com.wonders.shsictIn.BuildConfig;
 
 /**
  * 计划任务工具包
@@ -29,7 +29,7 @@ public class ScheduleUtil {
 	private static Map<String, Context>contexts = new HashMap<String, Context>();
 	
 //	public static boolean isShowNotiFication = false;
-	public final static String favouriteUrl = ConfigUtil.SHSICT_URL + "/Service/MessagePushService.svc/uid/";
+	public final static String favouriteInterfaceUrl = ConfigUtil.cachedServerIp + "/Services/SendMessageService.svc/uid/";
 
 	//开启轮询服务(计划任务)  
 	public static void startSchedule(Context context, int seconds, Class<?> cls, String action) {
@@ -66,7 +66,7 @@ public class ScheduleUtil {
 
 	public synchronized static int queryFavouriteChangeNum(String uid){
     	try {
-		 URL aURL = new URL(favouriteUrl + uid);
+		 URL aURL = new URL(favouriteInterfaceUrl + uid);
 		 URLConnection conn = aURL.openConnection();
     	 conn.connect();
     	 InputStream is = conn.getInputStream();
@@ -75,7 +75,7 @@ public class ScheduleUtil {
     		 Log.i("tangningfeng-result: ", s);
     	 }
     	 JSONObject obj = new JSONObject(s);
-    	 int num = (Integer) obj.get("GetMsgStatueByUIDResult");
+    	 int num = (Integer) obj.get("GetMechanicalErrorByUIDResult");
     	 return num ;
 		} catch (Exception e) {
 			e.printStackTrace();

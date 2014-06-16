@@ -1,4 +1,4 @@
-package com.wonders.shsict.service;
+package com.wonders.shsictIn.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -11,15 +11,16 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.wonders.shsict.BuildConfig;
-import com.wonders.shsict.R;
-import com.wonders.shsict.activity.WebViewActivity;
-import com.wonders.shsict.utils.ScheduleUtil;
-import com.wonders.shsict.utils.WebAppInterface;
+import com.wonders.shsictIn.BuildConfig;
+import com.wonders.shsictIn.R;
+import com.wonders.shsictIn.activity.WebViewActivity;
+import com.wonders.shsictIn.utils.ConfigUtil;
+import com.wonders.shsictIn.utils.ScheduleUtil;
+import com.wonders.shsictIn.utils.WebAppInterface;
 
 public class ScheduleService extends Service {
 
-	public static final String ACTION = "com.wonders.shsict.service.ScheduleService";
+	public static final String ACTION = "com.wonders.shsictIn.service.ScheduleService";
 
 	private Notification mNotification;
 	private NotificationManager mManager;
@@ -103,12 +104,18 @@ public class ScheduleService extends Service {
 		@Override
 		public void run() {
 			//			System.out.println("Polling...");
+			if(BuildConfig.DEBUG)
+				Log.i("Ninja", "polling thread is running");
+				
 			count++;
 			//				while (ScheduleUtil.isShowNotiFication) {
 			//当用户关注有变更时，弹出通知  
-			String uid = WebAppInterface.user;
+			String uid = ConfigUtil.getUIDFromCookie(ConfigUtil.cachedServerIp);
 			if (uid != null) {
 				int i = ScheduleUtil.queryFavouriteChangeNum(uid);
+//				if(BuildConfig.DEBUG)
+//					Log.i("Ninja", "polling thread get a result :" + i);
+				
 				if (i > 0) {
 					showNotification();
 				}
@@ -129,7 +136,6 @@ public class ScheduleService extends Service {
 			try {
 				pollingThread.join();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
