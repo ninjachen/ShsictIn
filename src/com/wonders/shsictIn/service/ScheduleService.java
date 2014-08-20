@@ -15,6 +15,7 @@ import com.wonders.shsictIn.BuildConfig;
 import com.wonders.shsictIn.R;
 import com.wonders.shsictIn.activity.WebViewActivity;
 import com.wonders.shsictIn.utils.ConfigUtil;
+import com.wonders.shsictIn.utils.HttpUtil;
 import com.wonders.shsictIn.utils.ScheduleUtil;
 import com.wonders.shsictIn.utils.WebAppInterface;
 
@@ -110,7 +111,7 @@ public class ScheduleService extends Service {
 			count++;
 			//				while (ScheduleUtil.isShowNotiFication) {
 			//当用户关注有变更时，弹出通知  
-			String uid = ConfigUtil.getUIDFromCookie(ConfigUtil.cachedServerIp);
+			String uid = HttpUtil.getUIDFromCookie(ConfigUtil.cachedServerIp);
 			if (uid != null) {
 				int i = ScheduleUtil.queryFavouriteChangeNum(uid);
 //				if(BuildConfig.DEBUG)

@@ -1,5 +1,16 @@
 package com.wonders.shsictIn.utils;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -98,38 +109,4 @@ public class ConfigUtil {
 		editor.commit();
 	}
 
-	public static boolean isNetworkConnected(Context context) {
-		if (context != null) {
-			ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-			NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
-			if (mNetworkInfo != null) {
-				return mNetworkInfo.isAvailable();
-			}
-		}
-		return false;
-	}
-	
-	public static String getUIDFromCookie(String url){
-		String uid = null;
-		
-		try {
-			CookieManager cm = CookieManager.getInstance();
-			String cookies = cm.getCookie(url);
-			String[] cookieArray = cookies.split(";");
-			for(String cookie : cookieArray){
-				if(cookie.contains("uid")){
-					int indexOfValue = cookie.indexOf("=") + 1;
-					uid = cookie.substring(indexOfValue);
-					break;
-				}
-			}
-			if(uid == null || uid.trim().equals(""))
-				return null;
-						
-			return uid;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 }

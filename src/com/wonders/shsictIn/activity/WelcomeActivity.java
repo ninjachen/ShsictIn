@@ -19,6 +19,7 @@ package com.wonders.shsictIn.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -82,7 +83,7 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 			url = getString(R.string.default_server_ip);
 			ConfigUtil.storeUrl(getApplicationContext(), url);
 			if(BuildConfig.DEBUG)
-				Toast.makeText(getApplicationContext(), "init-setDefaultUrl "+url, Toast.LENGTH_LONG).show();
+				Log.i("Ninja", BuildConfig.DEBUG+" init-setDefaultUrl "+url);
 		}
 			url += "/Portal";
 		webview.loadUrl(url);

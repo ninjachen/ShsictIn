@@ -30,11 +30,15 @@ import android.widget.Toast;
 import com.wonders.shsictIn.BuildConfig;
 import com.wonders.shsictIn.R;
 import com.wonders.shsictIn.service.ScheduleService;
+import com.wonders.shsictIn.task.CheckUpdateTask;
 import com.wonders.shsictIn.utils.ConfigUtil;
 import com.wonders.shsictIn.utils.ScheduleUtil;
 import com.wonders.shsictIn.utils.WebAppInterface;
 
 public class WebViewActivity extends Activity {
+//	private RequestQueue requestQueue;
+	private final static String TAG = "Ninja";
+//	private Thread autoUpdateThread;
 	private final static int INTERVAL = 60;
 	public static boolean isFavouriteUpdate = false;
 	public final static String GOTO_Favourite = "gotoFavourite";
@@ -65,6 +69,31 @@ public class WebViewActivity extends Activity {
 			isFavouriteUpdate = false;
 			gotoFavourite();
 		}
+		
+		String versionUrl = ConfigUtil.getCachedShsictURL(this) + "/Services/IsUpdateService.svc/version/Android";;
+		//AUTO-UPDATE
+		CheckUpdateTask task = new CheckUpdateTask(versionUrl , this);
+		task.execute(1000);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		//check update
+//		checkUpdate(versionUrl, getVersionCode(getApplicationContext()));
+//		autoUpdateThread = new Thread(){
+//			@Override
+//			public void run(){
+//				try {
+//					sleep(5000);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//				Log.i(TAG, "enters thread ,to check version ");
+//				Log.i(TAG, "versionUrl = "+versionUrl);
+//			}
+//		};
+		
 	}
 
 	/**
@@ -82,7 +111,8 @@ public class WebViewActivity extends Activity {
 		//當前界面是首頁
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 
-			if (webview.getUrl().toLowerCase(Locale.US).indexOf("portal") > -1) {
+			if (webview.getUrl().toLowerCase(Locale.US).indexOf("portal") > -1
+					|| webview.getUrl().toLowerCase(Locale.US).contains("login")) {
 
 				new AlertDialog.Builder(this).setTitle("确认退出吗？").setIcon(android.R.drawable.ic_dialog_info).setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
@@ -166,7 +196,7 @@ public class WebViewActivity extends Activity {
 		 public void onPageFinished(WebView view, String url) {
 	            CookieManager cookieManager = CookieManager.getInstance();
 	            String CookieStr = cookieManager.getCookie(url);
-	            Log.e("ninja", "Cookies = " + CookieStr + " , url = " + url);
+	            Log.e(TAG, "Cookies = " + CookieStr + " , url = " + url);
 	            super.onPageFinished(view, url);
         }
 	}
@@ -205,15 +235,12 @@ public class WebViewActivity extends Activity {
 
 		public RadioDialogBuilder(Context context) {
 			super(context);
-			// TODO Auto-generated constructor stub
 		}
 
 		@Override
 		public Builder setSingleChoiceItems(CharSequence[] items, int checkedItem, OnClickListener listener) {
-			// TODO Auto-generated method stub
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				checkedItem = which;
 			}
 			return this;
@@ -232,8 +259,10 @@ public class WebViewActivity extends Activity {
 		case R.id.main_page_item:
 			
 			WebViewActivity.url = ConfigUtil.getCachedShsictURL(this) + "/Portal";
-			if(BuildConfig.DEBUG)
+			if(BuildConfig.DEBUG){
 				Toast.makeText(getApplicationContext(), "click main page, url "+ WebViewActivity.url, Toast.LENGTH_LONG).show();
+			}
+			
 			webview.loadUrl(WebViewActivity.url);
 			break;
 		case R.id.favourite_item:
@@ -256,13 +285,16 @@ public class WebViewActivity extends Activity {
 			ConfigUtil.showDialog(this);
 			return true;
 		case R.id.about:
-//			showAbout();
-			Toast.makeText(getApplicationContext(), ConfigUtil.getUIDFromCookie(ConfigUtil.getCachedShsictURL(this)), Toast.LENGTH_SHORT).show();
+			showAbout();
+//			Toast.makeText(getApplicationContext(), ConfigUtil.getUIDFromCookie(ConfigUtil.getCachedShsictURL(this)), Toast.LENGTH_SHORT).show();
 //			playRingTone(getApplicationContext());
 //			Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 //			vibrator.vibrate(400);
 //			vibrator = null;
 			break;
+//		case R.id.update:
+////			autoUpdateThread.start();
+//			break;
 		default:
 			WebViewActivity.url = ConfigUtil.getCachedShsictURL(this) + "/Portal";
 			webview.loadUrl(WebViewActivity.url);
@@ -273,7 +305,6 @@ public class WebViewActivity extends Activity {
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 		WebViewActivity.url = webview.getUrl();
 	}
@@ -282,6 +313,7 @@ public class WebViewActivity extends Activity {
 	 * @param activity
 	 * @return
 	 */
+	@SuppressLint("InflateParams")
 	public AlertDialog showAbout() {
 		Activity activity = this;
 		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -326,5 +358,16 @@ public class WebViewActivity extends Activity {
 		isFavouriteUpdate = false;
 		getWindow().invalidatePanelMenu(Window.FEATURE_OPTIONS_PANEL);
 	}
+	
+	// ------------------------volley---------------------------------
+//	private RequestQueue getDefaultQueue(){
+//		if(requestQueue == null)
+//			requestQueue =  Volley.newRequestQueue(this);  
+//			
+//		return requestQueue;
+//	}
+	
+	
+	
 	
 }
